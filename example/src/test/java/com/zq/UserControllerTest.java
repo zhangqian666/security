@@ -1,6 +1,7 @@
-package com.zq.example;
+package com.zq;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.security.PublicKey;
 
 @RunWith(SpringRunner.class)
+@Slf4j
 @SpringBootTest
 public class UserControllerTest {
 
@@ -38,9 +40,9 @@ public class UserControllerTest {
         String result = mockMvc.perform(MockMvcRequestBuilders.get("/user")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(3))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(3))
                 .andReturn().getResponse().getContentAsString();
-        System.out.print(result);
+        log.info(result);
 
     }
 }

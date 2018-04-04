@@ -1,9 +1,15 @@
-package com.zq.example.beans;
+package com.zq.web.beans;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 
 public class User {
 
+    @ApiModelProperty(value = "用户名")
     private String username;
+    @ApiModelProperty(value = "密码")
     private String password;
+    @ApiModelProperty(value = "用户userid")
     private String userid;
 
     public User() {
