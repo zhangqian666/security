@@ -2,6 +2,8 @@ package com.zq.core.authentication.mobile;
 
 import com.zq.core.properties.SecurityConstants;
 import com.zq.core.properties.SecurityProperties;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -19,7 +21,8 @@ import java.io.IOException;
  * @Package com.zq.core.authendication.mobile
  **/
 
-
+@Setter
+@Getter
 public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     private String mobileParameter = SecurityConstants.DEFAULT_PARAMETER_NAME_MOBILE;
@@ -38,9 +41,22 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
         }
 
         String mobile = obtainMobile(httpServletRequest);
+        if (mobile == null) {
+            mobile = "";
+        }
 
+        mobile = mobile.trim();
 
-        return null;
+        SmsCodeAuthenticationToken authRequest = new SmsCodeAuthenticationToken(mobile);
+
+        // Allow subclasses to set the "details" property
+        setDetails(httpServletRequest, authRequest);
+
+        return this.getAuthenticationManager().authenticate(authRequest);
+    }
+
+    protected void setDetails(HttpServletRequest request, SmsCodeAuthenticationToken authRequest) {
+        authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
     }
 
     /**

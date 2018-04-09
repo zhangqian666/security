@@ -34,7 +34,7 @@ public class BrowserProperties {
     /**
      * 社交登录，如果需要用户注册，跳转的页面
      */
-    private String signUpUrl = "/imooc-signUp.html";
+    private String signUpUrl = "/zq-signUp.html";
     /**
      * 登录响应的方式，默认是json
      */

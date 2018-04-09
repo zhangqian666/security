@@ -9,11 +9,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.security.SocialUser;
+import org.springframework.social.security.SocialUserDetails;
+import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class ZqUserDetailsService implements UserDetailsService {
+public class ZqUserDetailsService implements UserDetailsService,SocialUserDetailsService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -29,5 +32,23 @@ public class ZqUserDetailsService implements UserDetailsService {
         return new User(username, encode,
                 true,true,true,true,
                 AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+    }
+
+    @Override
+    public SocialUserDetails loadUserByUserId(String s) throws UsernameNotFoundException {
+
+
+        return buildUser(s);
+    }
+
+    private SocialUserDetails buildUser(String userId) {
+        // 根据用户名查找用户信息
+        //根据查找到的用户信息判断用户是否被冻结
+        String password = passwordEncoder.encode("123456");
+        log.info("数据库密码是:"+password);
+
+        return new SocialUser(userId, password,
+                true, true, true, true,
+                AuthorityUtils.commaSeparatedStringToAuthorityList("xxx"));
     }
 }
